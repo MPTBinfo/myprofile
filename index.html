@@ -1,22 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded Blinq</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blinq Profile</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
+
+    .iframe-container {
+      width: 100%;
+      height: 100%;
+    }
+
     iframe {
       width: 100%;
-      height: 100vh; /* Full viewport height */
+      height: 100vh;
       border: none;
+    }
+
+    .fallback {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .fallback h2 {
+      color: #333;
+    }
+
+    .fallback a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 24px;
+      background-color: #007aff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .fallback a:hover {
+      background-color: #005ecc;
     }
   </style>
 </head>
 <body>
-  <iframe src="https://blinq.me/Fd13SuUvG1Kb5E0nQxvY?i=1" allowfullscreen></iframe>
-</body>
-</html>
+  <noscript>
+    <div class="fallback">
+      <h2>JavaScript is disabled</h2>
+      <p>Please enable JavaScript to view this content.</p>
+      <a href="https://blinq.me/Fd13SuUvG1Kb5E0nQxvY?i=1" target="_blank">Open Profile</a>
+    </div>
+  </noscript>
+
+  <div class="iframe-container">
+    <iframe src="https://blinq.me/Fd13SuUvG1Kb5E0nQxvY?i=1" onerror="showFallback()" id="blinqFrame"></iframe>
+  </div>
+
+  <script>
+    // Detect iframe load error (not always reliable because of cross-origin policies)
+    document.getElementById("blinqFrame").addEventListener("load", function () {
+      const iframe = this;
+      try {
+        // Try accessing the contentWindow (will throw error if cross-origin)
+        const test = iframe.contentWindow.location.href;
+      } catch (e) {
+        showFallback();
+      }
+    });
+
+    function showFallback() {
+      document.body.innerHTML = `
+        <div class="fallback">
+          <h2>Unable to load profile in this view</h2>
+          <p>The profile could not be embedded due to security settings.</p>
+          <a href="https://blinq.me/Fd13SuUvG1Kb5E0nQxvY?i=1" target="_blank">Open Profile</a>
+        </div>
+        
